@@ -38,6 +38,103 @@ diff -ur Eclipse_7.0_49/configure Eclipse_7.0_49.tclpath/configure
  	    if test -n "$found_tcl"; then
  		break
 Only in Eclipse_7.0_49.tclpath: configure.orig
+diff -ur Eclipse_7.0_49/lib_tcl/eclipse_arch.tcl Eclipse_7.0_49.tclpath/lib_tcl/eclipse_arch.tcl
+--- Eclipse_7.0_49/lib_tcl/eclipse_arch.tcl	2019-09-10 13:32:38.000000000 +0200
++++ Eclipse_7.0_49.tclpath/lib_tcl/eclipse_arch.tcl	2019-09-19 19:39:36.888565207 +0200
+@@ -25,64 +25,3 @@
+ # compute the ECLiPSe architecture name using Tcl primitives
+ #
+ 
+-proc ec_arch {} {
+-    global tcl_platform tcl_version
+-    switch -glob $tcl_platform(os) {
+-	Windows* {
+-	    if { $tcl_version >= 8.5} {
+-		# use pointerSize if possible - wordSize returns 4
+-		if { $tcl_platform(pointerSize) == 8 } { return x86_64_nt }
+-	    } elseif { $tcl_platform(wordSize) == 8 } { return x86_64_nt }
+-
+-	    return i386_nt
+-	}
+-	SunOS {
+-	    switch -glob $tcl_platform(osVersion) {
+-		4.*	{ return sun4 }
+-		5.* {
+-		    switch -glob $tcl_platform(machine) {
+-			sun4*	{ return sparc_sunos5 }
+-			i86pc	{
+-			    # This requires tcl8.4 or later:
+-			    switch -glob $tcl_platform(wordSize) {
+-				4 { return i386_sunos5 }
+-				8 { return x86_64_sunos5 }
+-			    }
+-			}
+-		    }
+-		}
+-	    }
+-	}
+-	Linux {
+-	    switch -glob $tcl_platform(machine) {
+-		alpha	{ return alpha_linux }
+-		armv7*	{ return armv7_linux }
+-		x86_64	{ 
+-		    switch -glob $tcl_platform(wordSize) {
+-			4 { return i386_linux }
+-			8 { return x86_64_linux }
+-		    }
+-		}
+-		i?86	{ return i386_linux }
+-	    }
+-	}
+-	Darwin {
+-	    switch -glob $tcl_platform(machine) {
+-		Power*	{ return ppc_macosx }
+-		i?86	{ 
+-		    # This requires tcl8.4 or later:
+-		    switch -glob $tcl_platform(wordSize) {
+-			4 { return i386_macosx }
+-			8 { # 32 bit kernel
+-			    return x86_64_macosx 
+-			} 
+-		    }
+-		}
+-		x86_64  { # 64 bit kernel
+-		    return x86_64_macosx 
+-}
+-	    }
+-	}
+-    }
+-    error "Platform $tcl_platform(os) $tcl_platform(osVersion) ($tcl_platform(machine)) not supported"
+-}
+\ No newline at end of file
+diff -ur Eclipse_7.0_49/lib_tcl/eclipse.tcl Eclipse_7.0_49.tclpath/lib_tcl/eclipse.tcl
+--- Eclipse_7.0_49/lib_tcl/eclipse.tcl	2019-09-10 13:32:38.000000000 +0200
++++ Eclipse_7.0_49.tclpath/lib_tcl/eclipse.tcl	2019-09-19 19:40:49.476629365 +0200
+@@ -479,10 +479,9 @@
+ #----------------------------------------------------------------------
+ 
+ set eclipsedir [file dirname [file dirname [info script]]]
+-source [file join $eclipsedir lib_tcl eclipse_arch.tcl]
+ 
+ set prev [pwd]
+-cd [file join $eclipsedir lib [ec_arch]]
++cd [file join $eclipsedir lib ]
+ if { [catch {
+ 	load [file join . tkexdr[info sharedlibextension]]
+ 	load [file join . tkeclipse[info sharedlibextension]]
+diff -ur Eclipse_7.0_49/lib_tcl/tkec_remote.tcl Eclipse_7.0_49.tclpath/lib_tcl/tkec_remote.tcl
+--- Eclipse_7.0_49/lib_tcl/tkec_remote.tcl	2019-09-10 13:32:38.000000000 +0200
++++ Eclipse_7.0_49.tclpath/lib_tcl/tkec_remote.tcl	2019-09-19 19:40:58.731765048 +0200
+@@ -738,8 +738,7 @@
+ #----------------------------------------------------------------------
+ 
+ set eclipsedir [file dirname [file dirname [info script]]]
+-source [file join $eclipsedir lib_tcl eclipse_arch.tcl]
+-load [file join $eclipsedir lib [ec_arch] tkexdr[info sharedlibextension]]
++load [file join $eclipsedir lib tkexdr[info sharedlibextension]]
+ 
+ 
+ # obsolete, for compatibility only
 diff -ur Eclipse_7.0_49/RUNME Eclipse_7.0_49.tclpath/RUNME
 --- Eclipse_7.0_49/RUNME	2019-09-10 13:32:38.000000000 +0200
 +++ Eclipse_7.0_49.tclpath/RUNME	2019-09-18 10:35:08.069808594 +0200

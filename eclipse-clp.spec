@@ -1,12 +1,13 @@
 Name:		  eclipse-clp
 Version:	7.0_49
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	The ECLiPSe Constraint Programming System
 
 License:	MPL
 URL:		  http://eclipseclp.org/
 Source0:	http://eclipseclp.org/Distribution/Builds/%{version}/src/eclipse_src.tgz#/eclipse-clp-%{version}.tar.gz
 Source1:  eclipse-clp.sh
+Source2:  tkeclipse-clp.sh
 Patch0:   eclipse-clp.tclpath.patch
 
 BuildRequires:	autoconf
@@ -62,8 +63,9 @@ export TCL_ARCH_DIR=$TCL_DIR
 
 # Use a custom script to set up the environment. The original eclipse-clp has
 # all paths wrong, so it's easier to write it from scratch.
-rm -rf %{LOCALINSTALLDIR}/%{_bindir}/%{_arch}_linux/eclipse
+rm -rf %{LOCALINSTALLDIR}/%{_bindir}/%{_arch}_linux/{eclipse,tkeclipse}
 install -p -D -m755 %{SOURCE1} %{buildroot}/%{_bindir}/eclipse-clp
+install -p -D -m755 %{SOURCE2} %{buildroot}/%{_bindir}/tkeclipse-clp
 install -p -D -t %{buildroot}/%{_bindir} %{LOCALINSTALLDIR}/%{_bindir}/%{_arch}_linux/*
 
 install -p -D -t %{buildroot}/%{_libdir} %{LOCALINSTALLDIR}/%{_prefix}/lib/%{_arch}_linux/*.so*
@@ -77,10 +79,16 @@ install -p -D -t %{buildroot}/%{_libexecdir}/%{name}/lib/chr %{LOCALINSTALLDIR}/
 ## Remove so we can glob lib
 rm -rf %{LOCALINSTALLDIR}/%{_prefix}/lib/chr
 install -p -D -t %{buildroot}/%{_libexecdir}/%{name}/lib %{LOCALINSTALLDIR}/%{_prefix}/lib/*
+ln -s %{_libdir}/tkeclipse.so %{buildroot}/%{_libexecdir}/%{name}/lib/
+ln -s %{_libdir}/tkexdr.so %{buildroot}/%{_libexecdir}/%{name}/lib/
+# Not needed
+rm %{LOCALINSTALLDIR}/%{_prefix}/lib_tcl/eclipse_arch.tcl
+mv %{LOCALINSTALLDIR}/%{_prefix}/lib_tcl %{buildroot}/%{_libexecdir}/%{name}/lib_tcl
+chmod +x %{buildroot}/%{_libexecdir}/%{name}/lib_tcl/tkeclipse.tcl
 
 %files
 %{_bindir}/eclipse-clp
-%{_bindir}/tkeclipse
+%{_bindir}/tkeclipse-clp
 %{_bindir}/tktools
 %{_libdir}/*.so
 %{_libexecdir}/%{name}
@@ -90,5 +98,8 @@ install -p -D -t %{buildroot}/%{_libexecdir}/%{name}/lib %{LOCALINSTALLDIR}/%{_p
 
 
 %changelog
+* Thu Sep 19 2019 Till Hofmann <thofmann@fedoraproject.org> - 7.0_49-2
+- Install missing tcl files
+
 * Thu Sep 19 2019 Till Hofmann <thofmann@fedoraproject.org> - 7.0_49-1
 - Initial package
