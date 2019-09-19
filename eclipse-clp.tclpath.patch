@@ -1,0 +1,52 @@
+diff -ur Eclipse_7.0_49/configure Eclipse_7.0_49.tclpath/configure
+--- Eclipse_7.0_49/configure	2019-09-10 13:32:38.000000000 +0200
++++ Eclipse_7.0_49.tclpath/configure	2019-09-18 13:44:08.970953998 +0200
+@@ -8843,7 +8843,7 @@
+ 
+ if test "$tcl_requested" = "yes"; then
+ 
+-    TCL_REQUIRED="8.5 8.4 8.3"
++    TCL_REQUIRED="8.6 8.5 8.4 8.3"
+ 
+     if test "$OSCLASS" != "win" ; then
+ 		{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for X" >&5
+@@ -9074,14 +9074,20 @@
+ 	    fi
+ 	else
+ 	    TCL_DIRS="/usr /usr/local"
++	    TCL_LIB_DIRS="lib lib64"
+ 	    for TCL_DIR in $TCL_DIRS; do
+-		if test -d "$TCL_DIR/lib/tcl$TCL_VERSION" ; then
+-		    found_tcl=yes
+-		    TCL_ARCH_DIR="$TCL_DIR"
+-		    TCL_INCL_DIR="$TCL_DIR/include/tcl$TCL_VERSION"
+-		    GRAPHLIBS="-L$TCL_ARCH_DIR/lib -ltcl$tcl_lib_version -ltk$tcl_lib_version $GRAPHLIBS"
++		for TCL_LIB_DIR in $TCL_LIB_DIRS; do
++		    if test -d "$TCL_DIR/$TCL_LIB_DIR/tcl$TCL_VERSION" ; then
++			found_tcl=yes
++			TCL_ARCH_DIR="$TCL_DIR"
++		    	TCL_INCL_DIR="$TCL_DIR/include/tcl$TCL_VERSION"
++		    	GRAPHLIBS="-L$TCL_ARCH_DIR/lib -ltcl$tcl_lib_version -ltk$tcl_lib_version $GRAPHLIBS"
++		    	break
++		    fi
++		done
++		if test -n "$found_tcl"; then
+ 		    break
+-		fi
++	    	fi
+ 	    done
+ 	    if test -n "$found_tcl"; then
+ 		break
+Only in Eclipse_7.0_49.tclpath: configure.orig
+diff -ur Eclipse_7.0_49/RUNME Eclipse_7.0_49.tclpath/RUNME
+--- Eclipse_7.0_49/RUNME	2019-09-10 13:32:38.000000000 +0200
++++ Eclipse_7.0_49.tclpath/RUNME	2019-09-18 10:35:08.069808594 +0200
+@@ -175,7 +175,7 @@
+ 
+ 	# Look for (shared/static) libraries
+ 
+-	tcl_dirs="/lib /usr/lib /usr/local/lib"
++	tcl_dirs="/lib /usr/lib /usr/local/lib /lib64 /usr/lib64 /usr/local/lib64"
+ 	tcl_version_nodot=`echo $TCL_VERSION|tr -d .`
+ 	tcl_libs="libtcl$TCL_VERSION.$OBJECTS_SUFFIX libtcl$TCL_VERSION.a\
+ 		tcl$TCL_VERSION.OBJECTS_SUFFIX\ tcl$tcl_version_nodot.OBJECTS_SUFFIX"
