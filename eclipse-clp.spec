@@ -1,6 +1,6 @@
 Name:		  eclipse-clp
 Version:	7.0_49
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	The ECLiPSe Constraint Programming System
 
 License:	MPL
@@ -9,6 +9,8 @@ Source0:	http://eclipseclp.org/Distribution/Builds/%{version}/src/eclipse_src.tg
 Source1:  eclipse-clp.sh
 Source2:  tkeclipse-clp.sh
 Patch0:   eclipse-clp.tclpath.patch
+# https://sourceforge.net/p/eclipse-clp/git/merge-requests/1/
+Patch1:   eclipse-clp.header-fixes.patch
 
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -61,6 +63,9 @@ export TCL_ARCH_DIR=$TCL_DIR
 
 %install
 
+#rm -rf %{LOCALINSTALLDIR}
+#cp -a %{LOCALINSTALLDIR}.bak %{LOCALINSTALLDIR}
+
 # Use a custom script to set up the environment. The original eclipse-clp has
 # all paths wrong, so it's easier to write it from scratch.
 rm -rf %{LOCALINSTALLDIR}/%{_bindir}/%{_arch}_linux/{eclipse,tkeclipse}
@@ -98,6 +103,9 @@ chmod +x %{buildroot}/%{_libexecdir}/%{name}/lib_tcl/tkeclipse.tcl
 
 
 %changelog
+* Fri Sep 20 2019 Till Hofmann <thofmann@fedoraproject.org> - 7.0_49-3
+- Add patch to fix issues with header files (upstream PR #1)
+
 * Thu Sep 19 2019 Till Hofmann <thofmann@fedoraproject.org> - 7.0_49-2
 - Install missing tcl files
 
