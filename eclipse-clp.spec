@@ -1,11 +1,11 @@
 Name:		  eclipse-clp
 Version:	6.2_29
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	The ECLiPSe Constraint Programming System
 
 License:	MPL
-URL:		  http://eclipseclp.org/
-Source0:	http://eclipseclp.org/Distribution/Builds/%{version}/src/eclipse_src.tgz#/eclipse-clp-%{version}.tar.gz
+URL:		  https://eclipseclp.org/
+Source0:	https://eclipseclp.org/Distribution/Builds/%{version}/src/eclipse_src.tgz#/eclipse-clp-%{version}.tar.gz
 Source1:  eclipse-clp.sh
 Source2:  tkeclipse-clp.sh
 Patch0:   eclipse-clp.tclpath.patch
@@ -104,6 +104,9 @@ chmod +x %{buildroot}/%{_libexecdir}/%{name}/lib_tcl/tkeclipse.tcl
 
 
 %changelog
+* Thu Sep 26 2019 Till Hofmann <thofmann@fedoraproject.org> - 6.2_29-5
+- Switch to HTTPS package source
+
 * Thu Sep 26 2019 Till Hofmann <thofmann@fedoraproject.org> - 6.2_29-4
 - Adapt to ECLiPSe 6.x release
 
