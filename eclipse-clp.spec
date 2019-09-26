@@ -1,11 +1,11 @@
 Name:		  eclipse-clp
 Version:	7.0_49
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	The ECLiPSe Constraint Programming System
 
 License:	MPL
-URL:		  http://eclipseclp.org/
-Source0:	http://eclipseclp.org/Distribution/Builds/%{version}/src/eclipse_src.tgz#/eclipse-clp-%{version}.tar.gz
+URL:		  https://eclipseclp.org/
+Source0:	https://eclipseclp.org/Distribution/Builds/%{version}/src/eclipse_src.tgz#/eclipse-clp-%{version}.tar.gz
 Source1:  eclipse-clp.sh
 Source2:  tkeclipse-clp.sh
 Patch0:   eclipse-clp.tclpath.patch
@@ -103,6 +103,9 @@ chmod +x %{buildroot}/%{_libexecdir}/%{name}/lib_tcl/tkeclipse.tcl
 
 
 %changelog
+* Thu Sep 26 2019 Till Hofmann <thofmann@fedoraproject.org> - 7.0_49-4
+- Switch to HTTPS package source
+
 * Fri Sep 20 2019 Till Hofmann <thofmann@fedoraproject.org> - 7.0_49-3
 - Add patch to fix issues with header files (upstream PR #1)
 
