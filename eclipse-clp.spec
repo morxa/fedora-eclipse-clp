@@ -1,6 +1,6 @@
 Name:		  eclipse-clp
-Version:	7.0_49
-Release:	3%{?dist}
+Version:	6.2_29
+Release:	4%{?dist}
 Summary:	The ECLiPSe Constraint Programming System
 
 License:	MPL
@@ -11,6 +11,7 @@ Source2:  tkeclipse-clp.sh
 Patch0:   eclipse-clp.tclpath.patch
 # https://sourceforge.net/p/eclipse-clp/git/merge-requests/1/
 Patch1:   eclipse-clp.header-fixes.patch
+Patch2:   eclipse-clp.rounding-control.patch
 
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -103,6 +104,9 @@ chmod +x %{buildroot}/%{_libexecdir}/%{name}/lib_tcl/tkeclipse.tcl
 
 
 %changelog
+* Thu Sep 26 2019 Till Hofmann <thofmann@fedoraproject.org> - 6.2_29-4
+- Adapt to ECLiPSe 6.x release
+
 * Fri Sep 20 2019 Till Hofmann <thofmann@fedoraproject.org> - 7.0_49-3
 - Add patch to fix issues with header files (upstream PR #1)
 

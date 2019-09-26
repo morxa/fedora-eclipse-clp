@@ -1,8 +1,7 @@
-diff --git a/Kernel/src/eclipse_cc.cc b/Kernel/src/eclipse_cc.cc
-index 22ad9cdc..a4b708c5 100644
---- a/Kernel/src/eclipse_cc.cc
-+++ b/Kernel/src/eclipse_cc.cc
-@@ -68,7 +68,7 @@ class EC_atom
+diff -ur Eclipse_6.2_29/Kernel/src/eclipse_cc.cc Eclipse_6.2_29.header-fixes/Kernel/src/eclipse_cc.cc
+--- Eclipse_6.2_29/Kernel/src/eclipse_cc.cc	2015-01-14 02:31:09.000000000 +0100
++++ Eclipse_6.2_29.header-fixes/Kernel/src/eclipse_cc.cc	2019-09-23 16:22:12.464130576 +0200
+@@ -76,7 +76,7 @@
  
  	EC_atom() {}
  
@@ -11,15 +10,16 @@ index 22ad9cdc..a4b708c5 100644
  
  	EC_atom(dident did)
  	{
-diff --git a/Kernel/src/eclipseclass.h b/Kernel/src/eclipseclass.h
-index 424f50db..bd92df74 100644
---- a/Kernel/src/eclipseclass.h
-+++ b/Kernel/src/eclipseclass.h
+Only in Eclipse_6.2_29.header-fixes/Kernel/src: eclipse_cc.cc.orig
+diff -ur Eclipse_6.2_29/Kernel/src/eclipseclass.h Eclipse_6.2_29.header-fixes/Kernel/src/eclipseclass.h
+--- Eclipse_6.2_29/Kernel/src/eclipseclass.h	2012-02-25 14:36:44.000000000 +0100
++++ Eclipse_6.2_29.header-fixes/Kernel/src/eclipseclass.h	2019-09-23 16:22:12.464130576 +0200
 @@ -35,6 +35,7 @@
   *
   */
  
 +#pragma once
  
- #include "eclipse_cc.h"
+ #ifdef _WIN32
  
+Only in Eclipse_6.2_29.header-fixes/Kernel/src: eclipseclass.h.orig
