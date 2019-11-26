@@ -1,6 +1,6 @@
 Name:		  eclipse-clp
 Version:	6.2_29
-Release:	5%{?dist}
+Release:	6%{?dist}
 Summary:	The ECLiPSe Constraint Programming System
 
 License:	MPL
@@ -8,6 +8,7 @@ URL:		  https://eclipseclp.org/
 Source0:	https://eclipseclp.org/Distribution/Builds/%{version}/src/eclipse_src.tgz#/eclipse-clp-%{version}.tar.gz
 Source1:  eclipse-clp.sh
 Source2:  tkeclipse-clp.sh
+Source3:  tktools.sh
 Patch0:   eclipse-clp.tclpath.patch
 # https://sourceforge.net/p/eclipse-clp/git/merge-requests/1/
 Patch1:   eclipse-clp.header-fixes.patch
@@ -69,10 +70,10 @@ export TCL_ARCH_DIR=$TCL_DIR
 
 # Use a custom script to set up the environment. The original eclipse-clp has
 # all paths wrong, so it's easier to write it from scratch.
-rm -rf %{LOCALINSTALLDIR}/%{_bindir}/%{_arch}_linux/{eclipse,tkeclipse}
+rm -rf %{LOCALINSTALLDIR}/%{_bindir}/%{_arch}_linux/{eclipse,tkeclipse,tktools}
 install -p -D -m755 %{SOURCE1} %{buildroot}/%{_bindir}/eclipse-clp
 install -p -D -m755 %{SOURCE2} %{buildroot}/%{_bindir}/tkeclipse-clp
-install -p -D -t %{buildroot}/%{_bindir} %{LOCALINSTALLDIR}/%{_bindir}/%{_arch}_linux/*
+install -p -D -m755 %{SOURCE3} %{buildroot}/%{_bindir}/tktools
 
 install -p -D -t %{buildroot}/%{_libdir} %{LOCALINSTALLDIR}/%{_prefix}/lib/%{_arch}_linux/*.so*
 install -p -D -t %{buildroot}/%{_includedir}/%{name} %{LOCALINSTALLDIR}/%{_includedir}/%{_arch}_linux/*
@@ -104,6 +105,9 @@ chmod +x %{buildroot}/%{_libexecdir}/%{name}/lib_tcl/tkeclipse.tcl
 
 
 %changelog
+* Tue Nov 19 2019 Till Hofmann <thofmann@fedoraproject.org> - 6.2_29-6
+- Fix tktools environment setup
+
 * Thu Sep 26 2019 Till Hofmann <thofmann@fedoraproject.org> - 6.2_29-5
 - Switch to HTTPS package source
 
