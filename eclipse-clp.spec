@@ -62,10 +62,6 @@ export TCL_ARCH_DIR=$TCL_DIR
 %make_build -f Makefile.%{_arch}_linux -j1
 
 %install
-
-#rm -rf %{LOCALINSTALLDIR}
-#cp -a %{LOCALINSTALLDIR}.bak %{LOCALINSTALLDIR}
-
 # Use a custom script to set up the environment. The original eclipse-clp has
 # all paths wrong, so it's easier to write it from scratch.
 rm -rf %{LOCALINSTALLDIR}/%{_bindir}/%{_arch}_linux/{eclipse,tkeclipse}
