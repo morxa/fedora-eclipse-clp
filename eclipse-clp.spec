@@ -16,6 +16,7 @@ Patch2:   eclipse-clp.rounding-control.patch
 
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:  /usr/bin/chrpath
 BuildRequires:	gcc-c++
 BuildRequires:	gmp-devel
 BuildRequires:	hostname
@@ -92,6 +93,8 @@ ln -s %{_libdir}/tkexdr.so %{buildroot}/%{_libexecdir}/%{name}/lib/
 rm %{LOCALINSTALLDIR}/%{_prefix}/lib_tcl/eclipse_arch.tcl
 mv %{LOCALINSTALLDIR}/%{_prefix}/lib_tcl %{buildroot}/%{_libexecdir}/%{name}/lib_tcl
 chmod +x %{buildroot}/%{_libexecdir}/%{name}/lib_tcl/tkeclipse.tcl
+
+find %{buildroot}/%{_libdir} -type f -exec chrpath -d '{}' \;
 
 %files
 %{_bindir}/eclipse-clp
